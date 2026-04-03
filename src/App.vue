@@ -19,29 +19,25 @@
       <!-- 左侧侧边栏 -->
       <aside class="layout-aside">
         <nav class="sidebar-menu">
-          <a href="#" class="menu-item active">
+          <router-link to="/" class="menu-item" :active-class="active">
             <i class="iconfont icon-cangchucangku"></i>首页概览
-          </a>
-          <a href="#" class="menu-item">
+          </router-link>
+          <router-link to="/user" class="menu-item" active-class="active">
             <i class="iconfont icon-user"></i>用户管理
-          </a>
-          <a href="#" class="menu-item">
+          </router-link>
+          <router-link to="/order" class="menu-item" active-class="active">
             <i class="icontfont icon-dingdan"></i>订单列表
-          </a>
-          <a href="#" class="menu-item">
+          </router-link>
+          <router-link to="/settings" class="menu-item" active-class="active">
             <i class="iconfont icon-guanli"></i>系统设置
-          </a>
+          </router-link>
         </nav>
       </aside>
 
       <!-- 右侧主内容区域 -->
       <main class="layout-main">
         <div class="main-content">
-          <h2>欢迎回来,admin~</h2>
-          <p>这里是主内容区域</p>
-          <div class="content-placeholder">
-            内容占位符
-          </div>
+          <router-view />
         </div>
       </main>
     </div>
@@ -134,6 +130,7 @@
   font-size: 15px;
   transition: background 0.3s, color 0.3s;
   border-left: 3px solid transparent;
+  display: block; /* 让 router-link 像块级元素一样显示 */
 }
 
 .menu-item:hover {
@@ -163,15 +160,6 @@
   min-height: calc(100vh - 120px);
 }
 
-.content-placeholder {
-  margin-top: 50px;
-  padding: 100px 20px;
-  background: #fafafa;
-  border: 1px dashed #d9d9d9;
-  text-align: center;
-  color: #999;
-  border-radius: 4px;
-}
 
 .menu-item i,
 .header-logo i,
