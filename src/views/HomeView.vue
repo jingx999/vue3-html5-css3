@@ -312,7 +312,98 @@
 
 /* css 模拟饼图 */
 .mock-pie-chart {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--color) 0% var(--percent),
+    transparent 0%
+  );
+  margin: 0 auto;
+  position: relative;
+}
+
+.pie-legend {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #666;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dot.blue {
+  background: #1890ff;
+}
+
+.dot.green {
+  background: #52c41a;
+}
+
+.dot.orange {
+  background: #faad14;
 }
 
 /* 4.底部表格 */
+.recent-orders {
+  background: #fff;
+  padding: 24px;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.view-all {
+  color: #1890ff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.simple-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+
+.simple-table th {
+  text-align: left;
+  padding: 12px;
+  color: #888;
+  font-weight: normal;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.simple-table td {
+  padding: 12px;
+  color: #333;
+  border-bottom: 1px solod #f0f0f0;
+  font-size: 14px;
+}
+
+.status-badge {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  background: #f6ffed;
+  color: #52c41a;
+  border: 1px solid #b7eb8f;
+}
+
+/* --- 响应式调整 --- */
+@media (max-width: 1200px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .charts-section { grid-template-columns: 1fr; }
+}
+
 </style>
