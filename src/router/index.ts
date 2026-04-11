@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 // 引入页面组件
-import HomeView from '../views/Homw.View.vue'
+import HomeView from '../views/HomeView.vue'
 import UserView from '../views/UserView.vue'
 import OrderView from '../views/OrderView.vue'
 import SettingsView from '../views/SettingsView.vue'
