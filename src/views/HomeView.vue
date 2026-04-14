@@ -315,10 +315,7 @@
   width: 150px;
   height: 150px;
   border-radius: 50%;
-  background: conic-gradient(
-    var(--color) 0% var(--percent),
-    transparent 0%
-  );
+  background: conic-gradient(var(--color) 0% var(--percent), transparent 0%);
   margin: 0 auto;
   position: relative;
 }
@@ -361,7 +358,7 @@
   background: #fff;
   padding: 24px;
   border-radius: 4px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
 }
 
 .view-all {
@@ -402,8 +399,11 @@
 
 /* --- 响应式调整 --- */
 @media (max-width: 1200px) {
-  .stats-grid { grid-template-columns: repeat(2, 1fr); }
-  .charts-section { grid-template-columns: 1fr; }
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .charts-section {
+    grid-template-columns: 1fr;
+  }
 }
-
 </style>

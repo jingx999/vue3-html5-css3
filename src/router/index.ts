@@ -10,10 +10,10 @@ import SettingsView from '../views/SettingsView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {path:'/', name: 'Home', component: HomeView},
-    {path:'/user', name:'User', component:UserView},
-    {path:'/order', name:'Order', component:OrderView},
-    {path:'/settings', name:'Settings', component:SettingsView}
+    { path: '/', name: 'Home', component: HomeView },
+    { path: '/user', name: 'User', component: UserView },
+    { path: '/order', name: 'Order', component: OrderView },
+    { path: '/settings', name: 'Settings', component: SettingsView },
   ],
 })
 

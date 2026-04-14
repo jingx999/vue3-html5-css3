@@ -4,14 +4,10 @@
   <div class="admin-layout">
     <!-- 顶部导航栏 -->
     <header class="layout-header">
-      <div class="header-logo">
-        <i class="iconfont icon-pingtai"></i>企业后台管理系统
-      </div>
+      <div class="header-logo"><i class="iconfont icon-pingtai"></i>企业后台管理系统</div>
       <div class="header-info">
         <span>管理员: admin</span>
-        <button class="logout-btn">
-          <i class="iconfont icon-tuichu1"></i>退出
-        </button>
+        <button class="logout-btn"><i class="iconfont icon-tuichu1"></i>退出</button>
       </div>
     </header>
     <!-- 主体内容区域 -->
@@ -48,17 +44,17 @@
 /* 全局重置 */
 * {
   box-sizing: border-box;
-  margin:0;
-  padding:0;
+  margin: 0;
+  padding: 0;
 }
-
 
 /* 布局容器 */
 .admin-layout {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   background-color: #f0f2f5;
 }
 
@@ -71,7 +67,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   z-index: 10;
 }
 
@@ -99,7 +95,7 @@
 
 .logout-btn:hover {
   background: #fff;
-  color: #001529
+  color: #001529;
 }
 
 /* 主体容器 */
@@ -128,7 +124,9 @@
   text-decoration: none;
   color: #333;
   font-size: 15px;
-  transition: background 0.3s, color 0.3s;
+  transition:
+    background 0.3s,
+    color 0.3s;
   border-left: 3px solid transparent;
   display: block; /* 让 router-link 像块级元素一样显示 */
 }
@@ -156,10 +154,9 @@
   background: #fff;
   padding: 24px;
   border-radius: 4px;
-  box-shadow: 0 1px 4px rgba(0,21,41,0.08);
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
   min-height: calc(100vh - 120px);
 }
-
 
 .menu-item i,
 .header-logo i,
@@ -178,5 +175,4 @@
   display: inline-flex;
   align-items: center;
 }
-
 </style>

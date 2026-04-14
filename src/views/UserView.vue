@@ -1,37 +1,77 @@
 <script setup lang="ts">
-import {ref} from 'vue';
-
+import { ref } from 'vue'
 
 // 模拟数据生成
 const userList = ref([
-  { id: 1001, name: '张伟', email: 'zhangwei@example.com', role: '超级管理员', status: 1, createTime: '2023-10-12' },
-  { id: 1002, name: '李娜', email: 'lina@example.com', role: '普通用户', status: 1, createTime: '2023-10-15' },
-  { id: 1003, name: '王强', email: 'wangqiang@example.com', role: '编辑', status: 0, createTime: '2023-11-01' },
-  { id: 1004, name: '赵敏', email: 'zhaomin@example.com', role: '普通用户', status: 1, createTime: '2023-11-05' },
-  { id: 1005, name: '刘洋', email: 'liuyang@example.com', role: '财务', status: 1, createTime: '2023-11-10' },
-  { id: 1006, name: '陈杰', email: 'chenjie@example.com', role: '普通用户', status: 0, createTime: '2023-11-12' },
-]);
-
+  {
+    id: 1001,
+    name: '张伟',
+    email: 'zhangwei@example.com',
+    role: '超级管理员',
+    status: 1,
+    createTime: '2023-10-12',
+  },
+  {
+    id: 1002,
+    name: '李娜',
+    email: 'lina@example.com',
+    role: '普通用户',
+    status: 1,
+    createTime: '2023-10-15',
+  },
+  {
+    id: 1003,
+    name: '王强',
+    email: 'wangqiang@example.com',
+    role: '编辑',
+    status: 0,
+    createTime: '2023-11-01',
+  },
+  {
+    id: 1004,
+    name: '赵敏',
+    email: 'zhaomin@example.com',
+    role: '普通用户',
+    status: 1,
+    createTime: '2023-11-05',
+  },
+  {
+    id: 1005,
+    name: '刘洋',
+    email: 'liuyang@example.com',
+    role: '财务',
+    status: 1,
+    createTime: '2023-11-10',
+  },
+  {
+    id: 1006,
+    name: '陈杰',
+    email: 'chenjie@example.com',
+    role: '普通用户',
+    status: 0,
+    createTime: '2023-11-12',
+  },
+])
 </script>
 
 <template>
   <div class="user-manage-container">
     <!-- 顶部面包屑与标题 -->
-     <div class="page-header">
+    <div class="page-header">
       <h2>用户管理</h2>
       <p class="breadcrumb">首页/用户中心/用户列表</p>
-     </div>
+    </div>
 
     <!-- 搜索与筛选栏 -->
-     <div class="filter-card">
+    <div class="filter-card">
       <div class="filter-row">
         <div class="input-group">
           <label for="">用户名</label>
-          <input type="text" placeholder="请输入用户名" class="search-input">
+          <input type="text" placeholder="请输入用户名" class="search-input" />
         </div>
         <div class="input-group">
           <label for="">手机号</label>
-          <input type="text" placeholder="请输入手机号" class="search-input">
+          <input type="text" placeholder="请输入手机号" class="search-input" />
         </div>
         <div class="input-group">
           <label for="">状态</label>
@@ -44,7 +84,7 @@ const userList = ref([
         <button class="btn btn-primary">搜索</button>
         <button class="btn btn-default">重置</button>
       </div>
-     </div>
+    </div>
 
     <!-- 表格操作栏 -->
     <div class="table-toolbar">
@@ -62,7 +102,7 @@ const userList = ref([
       <table class="table-data">
         <thead>
           <tr>
-            <th style="width: 50px;"><input type="checkbox"></th>
+            <th style="width: 50px"><input type="checkbox" /></th>
             <th>用户ID</th>
             <th>用户名</th>
             <th>邮箱</th>
@@ -76,18 +116,23 @@ const userList = ref([
         </thead>
         <tbody>
           <tr v-for="user in userList" :key="user.id">
-            <td><input type="checkbox"></td>
-            <td>{{user.id}}</td>
+            <td><input type="checkbox" /></td>
+            <td>{{ user.id }}</td>
             <td>
               <div class="user-info">
                 <!-- <div class="avatar">{{user.name.charAt(0)}}</div> -->
-                <span>{{user.name}}</span>
+                <span>{{ user.name }}</span>
               </div>
             </td>
-            <td>{{user.email}}</td>
-            <td><span class="role-tag">{{ user.role }}</span></td>
+            <td>{{ user.email }}</td>
             <td>
-              <span class="status-badge" :class="user.status === 1 ? 'status-active' : 'status-inactive'">
+              <span class="role-tag">{{ user.role }}</span>
+            </td>
+            <td>
+              <span
+                class="status-badge"
+                :class="user.status === 1 ? 'status-active' : 'status-inactive'"
+              >
                 {{ user.status === 1 ? '启用' : '禁用' }}
               </span>
             </td>
@@ -117,12 +162,11 @@ const userList = ref([
 <style scoped>
 /* 容器基础样式 */
 .user-manage-container {
-  padding:20px;
+  padding: 20px;
   background-color: #f0f2f5;
   min-height: 100%;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
-
 
 /* 页面标题栏 */
 .page-header {
@@ -146,19 +190,19 @@ const userList = ref([
   background: #fff;
   padding: 20px;
   border-radius: 4px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
   margin-bottom: 16px;
 }
 
 .filter-row {
   display: flex;
-  gap:16px;
+  gap: 16px;
   align-items: center;
   flex-wrap: wrap;
 }
 
 .input-group {
-  display:flex;
+  display: flex;
   align-items: center;
   gap: 8px;
 }
@@ -196,7 +240,7 @@ const userList = ref([
   background: #fff;
   border-radius: 4px;
   overflow: hidden;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
 }
 
 .table-data {
@@ -224,7 +268,6 @@ const userList = ref([
 .table-data tr:hover {
   background: #fafafa;
 }
-
 
 /* 表格内的组件样式 */
 .user-info {
@@ -264,8 +307,6 @@ const userList = ref([
   color: #40a9ff;
 }
 
-
-
 /* 分页 */
 .pagination {
   display: flex;
@@ -294,7 +335,6 @@ const userList = ref([
   color: #fff;
   border-color: #1890ff;
 }
-
 
 /* 按钮通用样式 */
 .btn {
@@ -327,12 +367,12 @@ const userList = ref([
 }
 
 .btn-success {
-  background:#52c41a;
+  background: #52c41a;
   color: #fff;
 }
 
 .btn-success:hover {
-  background:#73d13d;
+  background: #73d13d;
 }
 
 .btn-danger {
@@ -352,5 +392,4 @@ const userList = ref([
 .btn-text:hover {
   color: #40a9ff;
 }
-
 </style>
