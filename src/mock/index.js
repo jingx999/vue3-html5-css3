@@ -25,20 +25,40 @@ Mock.mock('/api/user/list', 'get', (options) => {
   // 解析 URL 中的查询参数
   const url = options.url
   // const params = { phone: 135 }
-  const phone = 13593568630
-  const name = '旭阳'
+  const phone = ''
+  // const name = '杨'
   const status = '1'
+  const keyword = '杨'
 
-  console.log(options)
-  console.log(url.includes('?'))
+  console.log(options, '111111111111222222333333333')
+  // console.log(url.includes('?'))
 
   // 进行本地的数据过滤
-  let result = userList.filter((item) => {})
+  let result = userList.filter((item) => {
+    // 手机号筛选
+    const matchPhone = !phone || item.phone.includes(phone)
+    // console.log(matchPhone, item)
+    // 状态筛选
+    const matchStatus = !status || item.status == status
+    // 用户名称搜索
+    let matchKeyword = true
+    if (keyword) {
+      const lowerKeyword = keyword.toLowerCase()
+      // 包含英文或数字
+      const hasEnglish = item.name.toLowerCase().includes(lowerKeyword)
+      // 包含汉字
+      const hasChinese = item.name.includes(keyword)
+      matchKeyword = hasEnglish || hasChinese
+    }
+    return matchPhone && matchStatus && matchKeyword
+  })
+  console.log(result)
 
   return {
     code: 200,
     msg: '获取成功...',
-    data: userList,
+    data: result,
+    total: result.length,
   }
 })
 

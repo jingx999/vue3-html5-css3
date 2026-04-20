@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, reactive } from 'vue'
 import axios from 'axios'
+import PinyinMatch from 'pinyin-match'
+// import { Pinyinmatch } from 'pinyin-match'
 
 // 这里是所有用户数据
 const userList = ref([])
@@ -11,10 +13,24 @@ const pageSize = ref(10)
 // 定义 ref 获取 DOM 元素
 const mainContainer = ref(null)
 
+// 定义响应式参数
+const searchForm = reactive({
+  keyword: '',
+  phone: '',
+  status: '',
+})
+
 // 获取所有用户的数据
 const getUserList = async () => {
   try {
-    const res = await axios.get('/api/user/list')
+    // 构建查询参数
+    const params = {
+      keyword: searchForm.keyword,
+      phone: searchForm.phone,
+      status: searchForm.status,
+    }
+    console.log(params, '3434334343')
+    const res = await axios.get('/api/user/list', { params })
 
     if (res.data.code === 200) {
       userList.value = res.data.data
@@ -22,6 +38,16 @@ const getUserList = async () => {
   } catch (error) {
     console.log('用户数据请求失败', error)
   }
+}
+
+// 搜索操作
+const handleSearch = () => {
+  getUserList()
+}
+// 重置操作
+const handleReset = () => {
+  ;((searchForm.keyword = ''), (searchForm.phone = ''), (searchForm.status = ''))
+  getUserList()
 }
 
 // 核心分页逻辑
@@ -149,22 +175,32 @@ onMounted(() => {
       <div class="filter-row">
         <div class="input-group">
           <label for="">用户名</label>
-          <input type="text" placeholder="请输入用户名" class="search-input" />
+          <input
+            type="text"
+            v-model="searchForm.keyword"
+            placeholder="支持拼音/汉字搜索"
+            class="search-input"
+          />
         </div>
         <div class="input-group">
           <label for="">手机号</label>
-          <input type="text" placeholder="请输入手机号" class="search-input" />
+          <input
+            type="text"
+            v-model="searchForm.phone"
+            placeholder="请输入手机号"
+            class="search-input"
+          />
         </div>
         <div class="input-group">
           <label for="">状态</label>
-          <select name="" id="" class="search-select">
+          <select name="" id="" v-model="searchForm.status" class="search-select">
             <option value="">全部</option>
             <option value="1">启用</option>
             <option value="0">禁用</option>
           </select>
         </div>
-        <button class="btn btn-primary">搜索</button>
-        <button class="btn btn-default">重置</button>
+        <button class="btn btn-primary" @click="handleSearch">搜索</button>
+        <button class="btn btn-default" @click="handleReset">重置</button>
       </div>
     </div>
 
