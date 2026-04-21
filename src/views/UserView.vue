@@ -31,6 +31,7 @@ const getUserList = async () => {
     }
     console.log(params, '3434334343')
     const res = await axios.get('/api/user/list', { params })
+    console.log(res, '898989899898')
 
     if (res.data.code === 200) {
       userList.value = res.data.data

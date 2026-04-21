@@ -21,10 +21,12 @@ for (let i = 0; i < 180; i++) {
 }
 
 // 2.拦截请求
-Mock.mock('/api/user/list', 'get', (options) => {
+Mock.mock(/\/api\/user\/list\/?/, 'get', (options) => {
+  console.log('请求拦截成功...')
   // 解析 URL 中的查询参数
   const url = options.url
   // const params = { phone: 135 }
+  console.log(url)
   const phone = ''
   // const name = '杨'
   const status = '1'
