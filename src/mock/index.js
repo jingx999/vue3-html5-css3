@@ -22,24 +22,26 @@ for (let i = 0; i < 180; i++) {
 
 // 2.拦截请求
 Mock.mock(/\/api\/user\/list\/?/, 'get', (options) => {
-  console.log('请求拦截成功...')
   // 解析 URL 中的查询参数
   const url = options.url
-  // const params = { phone: 135 }
-  console.log(url)
-  const phone = ''
-  // const name = '杨'
-  const status = '1'
-  const keyword = '杨'
 
-  console.log(options, '111111111111222222333333333')
-  // console.log(url.includes('?'))
+  const params = {}
+  if (url.includes('?')) {
+    url
+      .split('?')[1]
+      .split('&')
+      .forEach((item) => {
+        const [key, value] = item.split('=')
+        params[key] = value ? decodeURIComponent(value) : ''
+      })
+  }
+  // 获取参数
+  const { keyword, phone, status } = params
 
   // 进行本地的数据过滤
   let result = userList.filter((item) => {
     // 手机号筛选
     const matchPhone = !phone || item.phone.includes(phone)
-    // console.log(matchPhone, item)
     // 状态筛选
     const matchStatus = !status || item.status == status
     // 用户名称搜索
@@ -50,11 +52,14 @@ Mock.mock(/\/api\/user\/list\/?/, 'get', (options) => {
       const hasEnglish = item.name.toLowerCase().includes(lowerKeyword)
       // 包含汉字
       const hasChinese = item.name.includes(keyword)
-      matchKeyword = hasEnglish || hasChinese
+      // 拼音匹配
+      const hasPinyin = PinyinMatch.match(item.name, keyword)
+
+      // 只要满足其中一项,就算匹配成功
+      matchKeyword = hasEnglish || hasChinese || hasPinyin
     }
     return matchPhone && matchStatus && matchKeyword
   })
-  console.log(result)
 
   return {
     code: 200,

@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { ref, onMounted, computed, reactive } from 'vue'
+import { ref, onMounted, computed, reactive, watch } from 'vue'
 import axios from 'axios'
 import PinyinMatch from 'pinyin-match'
-// import { Pinyinmatch } from 'pinyin-match'
 
 // 这里是所有用户数据
 const userList = ref([])
@@ -29,17 +28,55 @@ const getUserList = async () => {
       phone: searchForm.phone,
       status: searchForm.status,
     }
-    console.log(params, '3434334343')
     const res = await axios.get('/api/user/list', { params })
-    console.log(res, '898989899898')
 
     if (res.data.code === 200) {
-      userList.value = res.data.data
+      let finalData = res.data.data
+
+      if (searchForm.keyword && searchForm.keyword.trim() !== '') {
+        // 统一标准,转小写
+        const keyword = searchForm.keyword.trim().toLowerCase()
+
+        finalData = finalData.filter((user) => {
+          // const keyword = searchForm.keyword
+          const name = user.name
+          // 直接包含汉字或者英文
+          if (name.toLowerCase().includes(keyword)) {
+            return true
+          }
+          // 使用 pinyin-match 匹配拼音与汉字
+          try {
+            // 在这里尝试匹配首字母
+            if (PinyinMatch.match(name, keyword)) {
+              return true
+            }
+          } catch (e) {
+            console.log('拼音匹配出错', e)
+          }
+          // 都不匹配的话,这一条过滤掉
+          return false
+        })
+      }
+      userList.value = finalData
     }
   } catch (error) {
     console.log('用户数据请求失败', error)
   }
 }
+
+// 实时搜索逻辑
+watch(
+  searchForm,
+  () => {
+    // 简单的防抖处理
+    // 用户停止输入 500ms 后再请求
+    clearTimeout(window.searchTimer)
+    window.searchTimer = setTimeout(() => {
+      getUserList()
+    }, 500)
+  },
+  { deep: true },
+)
 
 // 搜索操作
 const handleSearch = () => {
@@ -108,8 +145,6 @@ const visiblePages = computed(() => {
   const current = currentPage.value
   const delta = 2
 
-  // console.log(total, current, '1111111111122222')
-
   // 如果总页数小于等于 7,直接返回所有页码
   if (total <= 7) {
     return Array.from({ length: total }, (_, i) => i + 1)
@@ -153,8 +188,6 @@ const visiblePages = computed(() => {
   // 始终包含末页
   range.push(total)
 
-  // console.log(start.value, end.value, '---------------')
-  // console.log(range, '......')
   return range
 })
 
@@ -272,32 +305,12 @@ onMounted(() => {
       </table>
     </div>
 
-    <!-- 分页 -->
-    <!-- <div class="pagination">
-      <div class="page-buttons">
-        <button>上一页</button>
-        <button class="active">1</button>
-        <button>2</button>
-        <button>3</button>
-        <button>下一页</button>
-      </div>
-      <span>共计 {{ totalUsers }} 条数据</span>
-    </div> -->
-
     <!-- 底部操作栏 -->
     <div class="pagination-bar">
       <div class="page-controls">
         <!-- 翻页按钮 -->
         <div class="page-buttons">
           <button @click="prevPage" :disabled="currentPage === 1">上一页</button>
-          <!-- <button
-            v-for="page in totalPages"
-            :key="page"
-            @click="goToPage(page)"
-            :class="{ active: currentPage === page }"
-          >
-            {{ page }}
-          </button> -->
           <!-- 动态页码表 -->
           <template v-for="(page, index) in visiblePages" :key="index">
             <span v-if="page === '...'" class="page-ellipsis">...</span>
@@ -649,5 +662,11 @@ onMounted(() => {
   color: #999;
   padding: 0 4px;
   letter-spacing: 1px;
+}
+
+.empty-data{
+  text-align:center;
+  color:#999;
+  padding:40px 0;
 }
 </style>
