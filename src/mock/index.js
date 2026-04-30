@@ -3,22 +3,23 @@ import Mock from 'mockjs'
 // 引入拼音库
 import PinyinMatch from 'pinyin-match'
 
-// 1.定义数据模板
-const userList = []
-for (let i = 0; i < 180; i++) {
-  userList.push(
-    Mock.mock({
-      'id|1000-9999': 1,
-      name: '@cname',
-      'gender|1': ['男', '女'],
-      phone: /^1[3-9]\d{9}$/,
-      email: '@email',
-      'role|1': ['超级管理员', '普通用户', '编辑', '财务'],
-      'status|1': [0, 1],
-      createTime: '@date',
-    }),
-  )
-}
+
+// 初始化数据库
+// 生成一批固定数据,方便后续操作
+let userList=Mock.mock({
+  'data|50':[{
+    'id|1000-9999': 1,
+    name: '@cname',
+    'gender|1': ['男', '女'],
+    phone: /^1[3-9]\d{9}$/,
+    email: '@email',
+    'role|1': ['超级管理员', '普通用户', '编辑', '财务'],
+    'status|1': [0, 1],
+    createTime: '@date',
+  }]
+}).data;
+
+
 
 // 2.拦截请求
 Mock.mock(/\/api\/user\/list\/?/, 'get', (options) => {
@@ -68,5 +69,55 @@ Mock.mock(/\/api\/user\/list\/?/, 'get', (options) => {
     total: result.length,
   }
 })
+
+// 模拟新增用户
+Mock.mock('/api/user/create', 'post', (options) =>{
+  const body=JSON.parse(options.body)
+
+  // 模拟生成新 ID
+  const maxId = Math.max(...userList.map(u=>u.id),1000)
+  const newUser={
+    id: maxId+1,
+    name: body.name,
+    gender: body.gender,
+    phone: body.phone,
+    email: body.email,
+    role: body.role,
+    status: Number(body.status), // 确保是数字
+    createTime: new Date().toISOString().split('T')[0]
+  }
+
+  // 核心:将新数据推入数据库
+  userList.unshift(newUser)
+  return {
+    code:200,
+    msg:'新增成功',
+    data:newUser
+  }
+})
+
+
+// 模拟批量删除用户
+Mock.mock('/api/user/delete', 'post', (options)=>{
+  const body = JSON.parse(options.body)
+  const ids = body.ids
+
+  if (!ids || ids.length===0){
+    return {
+      code: 400,
+      msg:'请选择想要删除的用户'
+    }
+  }
+
+  // 核心:过滤掉被删除的 ID
+  userList = userList.filter(item=>!ids.includes(item.id))
+
+  return {
+    code:200,
+    msg:`成功删除 ${ids.length} 条数据`,
+    data:null
+  }
+})
+
 
 export default Mock
